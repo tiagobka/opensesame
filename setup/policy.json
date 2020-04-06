@@ -1,0 +1,5 @@
+{
+  "certaintyThreshold" : 80,
+  "piggybackAllow": true,
+  "requestDelay" : 10
+}
