@@ -1,8 +1,8 @@
 {
   "cascadeFile": "../cascade_models/haarcascade_frontalface_default.xml",
-  "AccessKeyID": "<AWS_AccessKeyID>",
-  "SecretKey": "<AWS_SecretAccessKey>",
-  "faceCollectionID" : "<AWS_faceCollectionID>",
+  "AccessKeyID": "<myAWS_AccessKeyID>",
+  "SecretKey": "<myAWS_SecretAccessKey>",
+  "faceCollectionID" : "<myAWS_faceCollectionID>",
   "pollingTime": 5,
   "sensitivity" : 20
 }
