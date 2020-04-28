@@ -1,15 +1,17 @@
+
 <h1 align='center'>Open Sesame</h1>
 <p align=center>
  Real-time facial recognition project
 </p>
-Real-time facial recognition project
+
 
 ## Table of Contents
 
 1. [Getting Started](#Getting-Started)
 2. [Prerequisites](#Prerequisites)
 3. [Installing](#Installing)
-4. [Running the tests] (#Running-the-tests)
+4. [Running the tests](#Running-the-tests)
+
 ...
 
 ## Getting Started
@@ -21,63 +23,62 @@ These instructions will get you a copy of the project up and running on your loc
     git clone https://github.com/tiagobka/opensesame
     cd opensesame
     ```
+2. Install Environment Requirements
+	```bash 
+	./environmentinstaller.sh
+	```
+3. Change configuration and policy files
+	```bash 
+	nano setup/policy.json
+	nano setup/config.json
+	```
 
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+**!The environment installer should automatically install the debian packages and configure the environment!**
+- Python 3
+- Python packages
+	- boto3==1.12.36
+	- picamera==1.13
+	- gpiozero==1.5.1
+- Debian Packages
+	- build-essential
+	- cmake 
+	- pkg-config
+	- libjpeg-dev
+	- libtiff5-dev
+	- libjasper-dev
+	- libpng12-dev`
+	- libavcodec-dev
+	- libavformat-dev
+	- libswscale-dev
+	- libv4l-dev
+	- libxvidcore-devy
+	- libx264-dev
+	- libgtk2.0-dev
+	- libgtk-3-dev
+	- libatlas-base-dev
+	- gfortran
+	- libqtgui4
+	- libqt4-test
+	- python3-opencv 
+		- You may try a different OpenCV installation but this is an easy way to install OpenCV on the RPI3- Raspbian GNU/Linux 10 (buster)
 
-```
- - Python 3
-<details>
-<summary>Python packages</summary>
-	+boto3==1.12.36
-	+picamera==1.13
-	+gpiozero==1.5.1
-</details>
-<details>
-<summary>Debian Packages</summary>
-	+build-essential
- 	+cmake 
-	+pkg-config
-	+libjpeg-dev
-	+libtiff5-dev
-	+libjasper-dev
-	+libpng12-dev`
-	+libavcodec-dev
-	+libavformat-dev
-	+libswscale-dev
-	+libv4l-dev
-	+libxvidcore-devy
-	+libx264-dev
-	+libgtk2.0-dev
-	+libgtk-3-dev
-	+libatlas-base-dev
-	+gfortran
-	+libqtgui4
-	+libqt4-test
-	+python3-opencv 
-		+You may try a different OpenCV installation but this is an easy way to install OpenCV on the RPI3- Raspbian GNU/Linux 10 (buster) 
-</details>
-```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
+If you didn't do it yet, install the package dependencies with the install environment shell script:
+```bash 
+#inside opensesame directory!
+./environmentinstaller.sh
 ```
-Give the example
+You can install the python packages with :
+```bash
+pip install boto3==1.12.36
+pip install picamera
+pip install gpiozero
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
