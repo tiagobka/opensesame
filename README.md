@@ -6,22 +6,59 @@ Real-time facial recognition project
 
 ## Table of Contents
 
-1. [Getting Started](#Getting Started)
+1. [Getting Started](#Getting-Started)
 2. [Prerequisites](#Prerequisites)
 3. [Installing](#Installing)
-4. [Running the tests] (#Running the tests)
+4. [Running the tests] (#Running-the-tests)
 ...
 
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+1. Clone the repository
+   ```bash
+    git clone https://github.com/tiagobka/opensesame
+    cd opensesame
+    ```
+
+
 ### Prerequisites
 
 What things you need to install the software and how to install them
 
 ```
-Give examples
+ - Python 3
+<details>
+<summary>Python packages</summary>
+	+boto3==1.12.36
+	+picamera==1.13
+	+gpiozero==1.5.1
+</details>
+<details>
+<summary>Debian Packages</summary>
+	+build-essential
+ 	+cmake 
+	+pkg-config
+	+libjpeg-dev
+	+libtiff5-dev
+	+libjasper-dev
+	+libpng12-dev`
+	+libavcodec-dev
+	+libavformat-dev
+	+libswscale-dev
+	+libv4l-dev
+	+libxvidcore-devy
+	+libx264-dev
+	+libgtk2.0-dev
+	+libgtk-3-dev
+	+libatlas-base-dev
+	+gfortran
+	+libqtgui4
+	+libqt4-test
+	+python3-opencv 
+		+You may try a different OpenCV installation but this is an easy way to install OpenCV on the RPI3- Raspbian GNU/Linux 10 (buster) 
+</details>
 ```
 
 ### Installing
