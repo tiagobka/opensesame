@@ -4,10 +4,16 @@ from picamera import PiCamera
 import time
 import cv2
 from setup import SetupRecognizer, ControlRecognizer
+import boto3
+from gpiozero import LED #GPIO functions (Migrated From RPI.GPIO)
 
-setup = SetupRecognizer()
-control = ControlRecognizer()
+setup = SetupRecognizer() #Read Configuration Files
+control = ControlRecognizer() #Initiate backend logic controller
+client = setup.connectClient()#Connects to AWS system
 
+relay = LED(4) #Set pin 7 (GPIO4) as an output digital pin
+
+#Setup the Raspberry Pi Camera
 camera = PiCamera()
 camera.resolution = (640, 480)
 camera.framerate = 32
@@ -15,6 +21,7 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.1)
 
 face_cascade  = cv2.CascadeClassifier(setup.cascadeFile)
+#start video capture and process frame by frame
 for frame in camera.capture_continuous(rawCapture, format= "bgr", use_video_port=True):
 	image = frame.array
 	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -32,7 +39,7 @@ for frame in camera.capture_continuous(rawCapture, format= "bgr", use_video_port
 		control.trigger()
 	
 	if control.pollImage(setup.pollingTime, rank):
-		control.bestFrame = frame
+		control.bestFrame = image
 	
 	#control.timeout(setup.requestDelay)
 
@@ -41,13 +48,24 @@ for frame in camera.capture_continuous(rawCapture, format= "bgr", use_video_port
 		stats = control.faceFrameCounter/control.frameCounter*100
 		#print(delay, stats)
 		if (delay & (stats > setup.sensitivity)):
-			print("seding")
-			print(frame)
+			print("sending")
+			img_encode = cv2.imencode('.jpg', control.bestFrame)[1].tostring()
+			response=client.search_faces_by_image(CollectionId=setup.faceCollectionID,
+							Image={"Bytes":img_encode},
+							FaceMatchThreshold=70,
+							MaxFaces=3)
+			faceMatches=response['FaceMatches']
+			print ('Matching faces')
+			for match in faceMatches:
+				print ('FaceId:' + match['Face']['ExternalImageId'])
+				print ('Similarity: ' + "{:.2f}".format(match['Similarity']) + "%")
 			control.lastSent = time.time()
+			relay.on()#open the door
+			time.sleep(5)
+			relay.off()#lock the door
 			
 		control.cleanup()
-		
-           
+		  
 	
 	cv2.imshow("Frame", image)
 	key = cv2.waitKey(1)

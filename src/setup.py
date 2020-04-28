@@ -1,5 +1,6 @@
 import json
 import time
+import boto3
 class SetupRecognizer:
 
     def __init__(self):
@@ -19,6 +20,7 @@ class SetupRecognizer:
             self.faceCollectionID = data['faceCollectionID']
             self.pollingTime = data['pollingTime']
             self.sensitivity = data['sensitivity']
+            self.region = data['region']
 
 
     def policySetup(self, file):
@@ -30,11 +32,17 @@ class SetupRecognizer:
             self.piggybackAllow = data["piggybackAllow"]
             self.requestDelay = data["requestDelay"]
 
-
+    def connectClient(self):
+        return boto3.client('rekognition',
+        aws_access_key_id = self.AccessKeyID,
+        aws_secret_access_key = self.SecretKey,
+        region_name = self.region)
+    
     def __str__(self):
         return "cascadeFile: " + self.cascadeFile + "\n" +\
         "AccessKeyID: " + self.AccessKeyID + "\n" +\
         "SecretKey: " + self.SecretKey + "\n" +\
+        "AWS region: " + self.region + "\n"+\
         "faceCollectionID: " + self.faceCollectionID + "\n" +\
         "pollingTime: " + str(self.pollingTime) + "\n"\
         "certaintyThreshold: "  + str(self.certaintyThreshold) + "\n"\

@@ -12,3 +12,4 @@ sudo apt-get install libqtgui4 -y
 sudo modprobe bcm2835-v4l2
 sudo apt-get install libqt4-test -y
 sudo apt-get install python3-opencv -y
+pip3 install boto3
