@@ -5,7 +5,10 @@ import time
 import cv2
 from setup import SetupRecognizer, ControlRecognizer
 import boto3
+import botocore
 from gpiozero import LED #GPIO functions (Migrated From RPI.GPIO)
+from collections import defaultdict
+from statistics import mean
 
 setup = SetupRecognizer() #Read Configuration Files
 control = ControlRecognizer() #Initiate backend logic controller
@@ -50,19 +53,32 @@ for frame in camera.capture_continuous(rawCapture, format= "bgr", use_video_port
 		if (delay & (stats > setup.sensitivity)):
 			print("sending")
 			img_encode = cv2.imencode('.jpg', control.bestFrame)[1].tostring()
-			response=client.search_faces_by_image(CollectionId=setup.faceCollectionID,
-							Image={"Bytes":img_encode},
-							FaceMatchThreshold=70,
-							MaxFaces=3)
+			try:
+				response=client.search_faces_by_image(CollectionId=setup.faceCollectionID,
+								Image={"Bytes":img_encode},
+								FaceMatchThreshold=70,
+								MaxFaces=3)
+			except botocore.exceptions.ParamValidationError as error: 
+				print(error)
 			faceMatches=response['FaceMatches']
-			print ('Matching faces')
+			tab = defaultdict(list)
+
+			
 			for match in faceMatches:
-				print ('FaceId:' + match['Face']['ExternalImageId'])
-				print ('Similarity: ' + "{:.2f}".format(match['Similarity']) + "%")
+				tab[match['Face']['ExternalImageId']].append(match['Similarity'])
+				#print ('FaceId:' + match['Face']['ExternalImageId'])
+				#print ('Similarity: ' + "{:.2f}".format(match['Similarity']) + "%")
+			if len(tab) == 1:
+				name = list(tab.keys())[0]
+				val = mean(tab[name])
+				print(val)
+				if val > setup.certaintyThreshold:
+					print("Unlocking door for " +  name + " with an average certainty of " + str (val) + "%")
+					relay.on()#open the door
+					time.sleep(5)
+					relay.off()#lock the door
+			
 			control.lastSent = time.time()
-			relay.on()#open the door
-			time.sleep(5)
-			relay.off()#lock the door
 			
 		control.cleanup()
 		  
