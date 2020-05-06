@@ -1,5 +1,6 @@
 
 
+
 # Open Sesame
 
 **A Facial recognition door lock with AWS and Raspberry Pi**
@@ -17,10 +18,10 @@ Open Sesame is a project that was created for the San José State University Com
 ## Table of Contents
 
 1. [Getting Started](#Getting-Started)
-	1.1. [Prerequisites](#Prerequisites)
-	1.2. [Installing](#Installing)
-	1.3. [Circuit](#Circuit)
-	1.4. [AWS setup](#AWS-setup)
+	- [Prerequisites](#Prerequisites)
+	- [Installing](#Installing)
+	- [Circuit](#Circuit)
+	- [AWS setup](#AWS-setup)
 2. [Deploying the Facial Recognition](#Deploying-the-Facial-Recognition)
 3. [Config Files](#Config-Files)
 4. [Authors](#Authors) 
